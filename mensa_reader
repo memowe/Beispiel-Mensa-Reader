@@ -55,7 +55,7 @@ __DATA__
 % for my $d (@$mensa_data) {
     <li>
         <strong><%= $d->{name} %></strong><br>
-        %= link_to $d->{address} => $d->{google_maps_url}
+        %= link_to "📌 $d->{address}" => $d->{google_maps_url}
         <pre><%= dumper $d %></pre>
     </li>
 % }
@@ -68,6 +68,8 @@ __DATA__
         <title>MensaReader: <%= title %></title>
         %= stylesheet begin
             body { font-family: sans-serif; margin: 5em 8em }
+            a:link { text-decoration: none }
+            a:hover { background: #eee }
         % end
     </head>
     <body>
