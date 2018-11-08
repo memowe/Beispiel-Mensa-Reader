@@ -21,8 +21,20 @@ get '/list' => sub ($c) {
     # Retrieve data for each mensa (synchronously)
     my @mensa_ids = @{ $c->config('mensa_ids') }; # deref array ref
     for my $mensa_id (@mensa_ids) {
-        my $url = "$api_base/canteens/$mensa_id";
-        $mensa_data{$mensa_id} = $c->app->ua->get($url)->result->json;
+
+        # Request and parse JSON
+        my $url     = "$api_base/canteens/$mensa_id";
+        my $data    = $c->app->ua->get($url)->result->json;
+
+        # Build Google Maps URL
+        my $gm_url = 'https://www.google.com/maps/place'
+            . "/$data->{coordinates}[0],$data->{coordinates}[1]";
+
+        # Store
+        $mensa_data{$mensa_id} = {
+            %$data,
+            google_maps_url => $gm_url,
+        };
     }
 
     # Done
@@ -42,7 +54,7 @@ __DATA__
 % for my $d (values %$mensa_data) {
     <li>
         <strong><%= $d->{name} %></strong><br>
-        (<%= $d->{address} %>)
+        %= link_to $d->{address} => $d->{google_maps_url}
         <pre><%= dumper $d %></pre>
     </li>
 % }
