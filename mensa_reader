@@ -6,6 +6,9 @@ use feature 'signatures';
 plugin Config => {file => app->home->rel_file('config')};
 my $api_base = app->config('api')->{base_url};
 
+# Detect proxy setting from environment
+app->ua->proxy->detect;
+
 # Homepage: redirect to listing
 get '/' => sub ($c) {
     $c->redirect_to('list');
