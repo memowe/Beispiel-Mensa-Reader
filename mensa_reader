@@ -3,6 +3,8 @@ use Mojolicious::Lite;
 
 use feature 'signatures';
 
+plugin Config => {file => app->home->rel_file('config')};
+
 get '/' => sub ($c) {
     $c->render(template => 'index');
 };
