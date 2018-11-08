@@ -6,17 +6,44 @@ use feature 'signatures';
 plugin Config => {file => app->home->rel_file('config')};
 my $api_base = app->config('api')->{base_url};
 
+# Homepage: redirect to listing
 get '/' => sub ($c) {
-    $c->render(template => 'index');
-};
+    $c->redirect_to('list');
+} => 'home';
+
+# List all known mensa items for selection
+get '/list' => sub ($c) {
+    my %mensa_data;
+
+    # Retrieve data for each mensa (synchronously)
+    my @mensa_ids = @{ $c->config('mensa_ids') }; # deref array ref
+    for my $mensa_id (@mensa_ids) {
+        my $url = "$api_base/canteens/$mensa_id";
+        $mensa_data{$mensa_id} = $c->app->ua->get($url)->result->json;
+    }
+
+    # Done
+    $c->stash(mensa_data => \%mensa_data);
+
+} => 'list';
 
 app->start;
 __DATA__
 
-@@ index.html.ep
+@@ list.html.ep
 % layout 'default';
 % title 'Welcome';
-<h1>Welcome to the Mojolicious real-time web framework!</h1>
+<h1>Yay! Mensa Reader!</h1>
+<p>All known mensas:</p>
+<ul>
+% for my $d (values %$mensa_data) {
+    <li>
+        <strong><%= $d->{name} %></strong><br>
+        (<%= $d->{address} %>)
+        <pre><%= dumper $d %></pre>
+    </li>
+% }
+</ul>
 
 @@ layouts/default.html.ep
 <!DOCTYPE html>
