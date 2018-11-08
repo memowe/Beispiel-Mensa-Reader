@@ -4,13 +4,25 @@ Web interface to OpenMensa data @ Bistro Frieden
 
 ## How to run
 
+Just start the [dockerized version][dover] using [Docker][docker]:
+
+```bash
+$ ./docker_run.sh
+```
+
+That's it. You can also run it by hand in a working Perl environment. Behind a HTTP proxy one should install [IO::Socket::SSL][iss].
+
 ```bash
 $ cd MensaReader
 $ cpanm --notest --installdeps .
 $ morbo --listen http://*:9000 mensa_reader
 ```
 
-and open the website [`http://localhost:9000`][url] with your Browser.
+and open the website [`http://localhost:9000`][url] in your Browser.
+
+[dover]: Dockerfile
+[docker]: https://www.docker.com
+[iss]: https://metacpan.org/pod/IO::Socket::SSL
 
 ## Author and License
 
