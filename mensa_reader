@@ -10,6 +10,25 @@ my $api_base = app->config('api')->{base_url};
 # Detect proxy setting from environment
 app->ua->proxy->detect;
 
+# Load mensa data including Google Maps link
+sub load_mensa_data ($id) {
+
+    # Request and parse JSON
+    my $url     = "$api_base/canteens/$id";
+    my $data    = app->ua->get($url)->result->json;
+
+    # Build Google Maps URL
+    my $gm_url = 'https://www.google.com/maps/place'
+        . "/$data->{coordinates}[0],$data->{coordinates}[1]";
+
+    # Done
+    return {
+        %$data,
+        api_url         => $url,
+        google_maps_url => $gm_url,
+    };
+}
+
 # Homepage: redirect to listing
 get '/' => sub ($c) {
     $c->redirect_to('list');
@@ -17,29 +36,13 @@ get '/' => sub ($c) {
 
 # List all known mensa items for selection
 get '/list' => sub ($c) {
-    my %mensa_data;
 
-    # Retrieve data for each mensa (synchronously)
-    my @mensa_ids = @{ $c->config('mensa_ids') }; # deref array ref
-    for my $mensa_id (@mensa_ids) {
-
-        # Request and parse JSON
-        my $url     = "$api_base/canteens/$mensa_id";
-        my $data    = $c->app->ua->get($url)->result->json;
-
-        # Build Google Maps URL
-        my $gm_url = 'https://www.google.com/maps/place'
-            . "/$data->{coordinates}[0],$data->{coordinates}[1]";
-
-        # Store
-        $mensa_data{$mensa_id} = {
-            %$data,
-            google_maps_url => $gm_url,
-        };
-    }
+    # Retrieve data for each mensa (synchronously, sorted)
+    my @mensa_ids   = @{ $c->config('mensa_ids') }; # deref array ref
+    my %mensa_data  = map {$_ => load_mensa_data($_)} @mensa_ids;
+    my @mensa_data  = sort {$a->{name} cmp $b->{name}} values %mensa_data;
 
     # Done
-    my @mensa_data = sort {$a->{name} cmp $b->{name}} values %mensa_data;
     $c->stash(mensa_data => \@mensa_data);
 
 } => 'list';
