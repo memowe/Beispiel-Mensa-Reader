@@ -38,7 +38,8 @@ get '/list' => sub ($c) {
     }
 
     # Done
-    $c->stash(mensa_data => \%mensa_data);
+    my @mensa_data = sort {$a->{name} cmp $b->{name}} values %mensa_data;
+    $c->stash(mensa_data => \@mensa_data);
 
 } => 'list';
 
@@ -51,7 +52,7 @@ __DATA__
 <h1>Yay! Mensa Reader!</h1>
 <p>All known mensas:</p>
 <ul>
-% for my $d (values %$mensa_data) {
+% for my $d (@$mensa_data) {
     <li>
         <strong><%= $d->{name} %></strong><br>
         %= link_to $d->{address} => $d->{google_maps_url}
