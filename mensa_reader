@@ -56,7 +56,6 @@ __DATA__
     <li>
         <strong><%= $d->{name} %></strong><br>
         %= link_to "📌 $d->{address}" => $d->{google_maps_url}
-        <pre><%= dumper $d %></pre>
     </li>
 % }
 </ul>
