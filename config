@@ -1,3 +1,7 @@
 {
     mensa_ids => [226, 327],
+
+    api => {
+        base_url => 'http://openmensa.org/api/v2',
+    },
 }
