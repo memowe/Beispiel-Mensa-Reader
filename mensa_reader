@@ -21,6 +21,13 @@ __DATA__
 @@ layouts/default.html.ep
 <!DOCTYPE html>
 <html>
-    <head><title><%= title %></title></head>
-    <body><%= content %></body>
+    <head>
+        <title>MensaReader: <%= title %></title>
+        %= stylesheet begin
+            body { font-family: sans-serif; margin: 5em 8em }
+        % end
+    </head>
+    <body>
+        %= content
+    </body>
 </html>
