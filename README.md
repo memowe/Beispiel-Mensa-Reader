@@ -18,11 +18,17 @@ $ cpanm --notest --installdeps .
 $ morbo --listen http://*:9000 mensa_reader
 ```
 
-and open the website [`http://localhost:9000`][url] in your Browser.
+Now open the website [`http://localhost:9000`][url] in your Browser:
+
+![][image-list]
+
+![][image-mensa]
 
 [dover]: Dockerfile
 [docker]: https://www.docker.com
 [iss]: https://metacpan.org/pod/IO::Socket::SSL
+[image-list]: README-images/list.png
+[image-mensa]: README-images/mensa.png
 
 ## Author and License
 
