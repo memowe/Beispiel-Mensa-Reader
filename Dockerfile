@@ -7,6 +7,8 @@ RUN apk update && \
         perl-mojolicious
 
 COPY config /config
+COPY templates /templates
+COPY public /public
 COPY mensa_reader /mensa_reader
 
 # Expose web development port

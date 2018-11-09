@@ -1,0 +1,16 @@
+% layout 'default';
+% title 'Welcome';
+<h1>Yay! Mensa Reader!</h1>
+<p>All known mensas:</p>
+<ul id="mensas">
+% for my $d (@$mensa_data) {
+    <li>
+        %= link_to mensa => {id => $d->{id}} => begin
+            <strong><%= $d->{name} %></strong>
+        % end
+        <br>
+        %= link_to "📌 $d->{address}" => $d->{google_maps_url}
+    </li>
+% }
+</ul>
+

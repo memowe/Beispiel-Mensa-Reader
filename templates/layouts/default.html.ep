@@ -1,0 +1,10 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>MensaReader: <%= title %></title>
+        %= stylesheet '/stylesheet.css'
+    </head>
+    <body>
+        %= content
+    </body>
+</html>

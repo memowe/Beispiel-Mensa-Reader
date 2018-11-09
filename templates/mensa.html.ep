@@ -1,0 +1,10 @@
+% layout 'default';
+% title $mensa_data->{name};
+<p><%= link_to 'Mensa-Übersicht' => 'list' %></p>
+<h1><%= $mensa_data->{name} %></h1>
+% for my $day (@$meal_days) {
+    <h2><%= $day->{date} %></h2>
+    %= include 'meal_day_details', day => $day
+% }
+<p><%= link_to 'Mensa-Übersicht' => 'list' %></p>
+

@@ -1,0 +1,34 @@
+% unless ($day->{closed}) {
+    <table>
+        <thead>
+            <tr>
+                <th colspan="2">Gericht</th>
+                <th>Preis (€)</th>
+            </tr>
+        </thead>
+        <tbody>
+        % for my $meal (@{$day->{meals}}) {
+            <tr>
+                <th><%= $meal->{category} %></th>
+                <td>
+                    %= $meal->{name}
+                    <ul class="notes">
+                    % for my $note (@{$meal->{notes}}) {
+                        <li><%= $note %></li>
+                    % }
+                    </ul>
+                </td>
+                % my @roles  = qw(students employees others);
+                % my @prices = map $meal->{prices}{$_} => @roles;
+                % my @euros  = map sprintf('%.2f €' => $_) => @prices;
+                <td title="<%= join ' / ' => @roles %>">
+                    <span class="price"><%= join ' / ' => @euros %></span>
+                </td>
+            </tr>
+        % }
+        </tbody>
+    </table>
+% } else {
+    <p>Geschlossen</p>
+% }
+

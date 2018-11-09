@@ -1,0 +1,11 @@
+body { font-family: sans-serif; margin: 5em 8em }
+a:link { text-decoration: none }
+a:hover { background: #f8f8f8 }
+ul#mensas li { margin-bottom: .5em }
+table { border-collapse: collapse }
+th, td { padding: .8em 1.2em }
+tbody tr > * { border-top: thin solid black }
+tr td { border-left: thin solid lightgrey }
+table:hover th, table:hover td { background-color: #f8f8f8 }
+.notes { font-size: .75em; color: #666; line-height: 1.2em }
+.price { white-space: pre }
