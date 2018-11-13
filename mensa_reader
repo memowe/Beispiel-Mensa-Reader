@@ -5,7 +5,7 @@ use feature 'signatures';
 no warnings 'experimental::signatures';
 
 plugin Config => {file => app->home->rel_file('config')};
-my $api_base = app->config('api')->{base_url};
+my $api_base = app->config('api_base_url');
 
 # Detect proxy setting from environment
 app->ua->proxy->detect;
